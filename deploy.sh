@@ -30,7 +30,7 @@ killPort()
 	fi
 }
 
-cd $PROJ_PATH/baseline
+cd $PROJ_PATH/BaseLineSvr
 echo "$PROJ_PATH"
 mvn clean install
 
@@ -46,11 +46,11 @@ rm -rf $WORK_PATH/BASELINE.jar
 
 #复制新的工程
 #cp $PROJ_PATH/order/target/order.war $TOMCAT_APP_PATH/webapps/
-cp $PROJ_PATH/BaseLineSvr/target/baseline-0.0.1-SNAPSHOT.jar $WORK_PATH/
+cp $PROJ_PATH/BaseLineSvr/target/BASELINE-0.0.1-SNAPSHOT.jar $WORK_PATH/
 
 cd $WORK_PATH/
 #mv order.war ROOT.war
-mv baseline-0.0.1-SNAPSHOT.jar BASELINE.jar
+mv BASELINE-0.0.1-SNAPSHOT.jar BASELINE.jar
 
 #启动tomcat
 cd $WORK_PATH/
