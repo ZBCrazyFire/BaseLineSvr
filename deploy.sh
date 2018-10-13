@@ -41,18 +41,18 @@ killPort
 #rm -rf $TOMCAT_APP_PATH/webapps/ROOT
 #rm -rf $TOMCAT_APP_PATH/webapps/ROOT.war
 #rm -rf $TOMCAT_APP_PATH/webapps/roder.war
-rm -rf $WORK_PATH/BASELINE.jar
+rm -rf $WORK_PATH/BaseLine.jar
 
 
 #复制新的工程
 #cp $PROJ_PATH/order/target/order.war $TOMCAT_APP_PATH/webapps/
-cp $PROJ_PATH/BaseLineSvr/target/BASELINE-0.0.1-SNAPSHOT.jar $WORK_PATH/
+cp $PROJ_PATH/BaseLineSvr/target/BaseLine-0.0.1-SNAPSHOT.jar $WORK_PATH/
 
 cd $WORK_PATH/
 #mv order.war ROOT.war
-mv BASELINE-0.0.1-SNAPSHOT.jar BASELINE.jar
+mv BaseLine-0.0.1-SNAPSHOT.jar BaseLine.jar
 
 #启动tomcat
 cd $WORK_PATH/
 #sh bin/startup.sh
-java -jar BASELINE.jar --server.port=8081 log.out 2>&1 &
+java -jar BaseLine.jar --server.port=8081 log.out 2>&1 &
