@@ -72,6 +72,7 @@ public class UserManagerController {
 			userDomain.setCreateTime(Utils.nowTime());
 			userDomain.setUpdateTime(Utils.nowTime());
 			userDomain.setCharacter("member");
+			userDomain.setIsDelete("false");
 			
 			//先查询是否重名
 			List<UserDomain> userList = userDao.queryUser(userDomain);
