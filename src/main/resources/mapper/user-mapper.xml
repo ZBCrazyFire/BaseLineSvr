@@ -11,18 +11,47 @@
 		<result property="createTime" column="createTime" />
 		<result property="updateTime" column="updateTime" />
 		<result property="character" column="character" />
+		<result property="isDelete" column="isDelete" />
 	</resultMap>
 
 	<insert id="addUser" parameterType="UserDomain">
 		insert into t_user (`id`,
-		`name`, `password`, `createTime`, `updateTime`, `character`)
-		values(#{id},#{name},#{password},#{createTime},#{updateTime},#{character})
+		`name`, `password`, `createTime`, `updateTime`, `character`, `isDelete`)
+		values(#{id},#{name},#{password},#{createTime},#{updateTime},#{character},#{isDelete})
 	</insert>
 
-	<select id="queryUser" resultType="UserDomain">
-		<!-- select * from t_user limit ${startPage},${endPage} -->
+	<select id="queryUser" resultType="UserDomain" parameterType="UserDomain">
 		select * from t_user
+		where 1=1
+		<if test="name != null">
+			and name = #{name}
+		</if>
+		<if test="password != null">
+			and password = #{password}
+		</if>
+		and isDelete != "true";
 	</select>
+
+
+	<update id="updateUser" parameterType="UserDomain">
+		update t_user set
+		<if test="name != null">
+			`name` = #{name},
+		</if>
+		<if test="password != null">
+			`password` = #{password},
+		</if>
+		<if test="updateTime != null">
+			`updateTime` = #{updateTime},
+		</if>
+		<if test="character != null">
+			`character` = #{character},
+		</if>
+		<if test="isDelete != null">
+			`isDelete` = #{isDelete}
+		</if>
+		where name = #{name}
+	</update>
 
 </mapper>  
 

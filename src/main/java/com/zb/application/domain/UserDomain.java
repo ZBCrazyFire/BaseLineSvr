@@ -13,6 +13,8 @@ public class UserDomain {
 	private String updateTime;
 	
 	private String character;
+	
+	private String isDelete;
 
 	public String getId() {
 		return id;
@@ -60,5 +62,13 @@ public class UserDomain {
 
 	public void setCharacter(String character) {
 		this.character = character;
+	}
+
+	public String getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
 	}
 }

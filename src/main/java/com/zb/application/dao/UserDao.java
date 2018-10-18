@@ -9,6 +9,10 @@ import com.zb.application.domain.UserDomain;
 
 @Mapper
 public interface UserDao {
+	
 	void addUser(UserDomain userDomain);
-	List<UserDomain> queryUser();
+	
+	List<UserDomain> queryUser(UserDomain userDomain);
+	
+	void updateUser (UserDomain userDomain);
 }
