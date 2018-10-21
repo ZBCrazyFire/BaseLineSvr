@@ -25,7 +25,7 @@ public class UserManagerController {
 	UserDao userDao;
 
 	@RequestMapping(value = "/query/user",method = RequestMethod.POST)
-	public CommonResponse queryStudent() {
+	public CommonResponse queryUser() {
 		CommonResponse commonResponse = new CommonResponse();
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		try {
@@ -54,6 +54,7 @@ public class UserManagerController {
 				result.put("message", "params can not be empty");
 				commonResponse.setResult(result);
 				commonResponse.setStatus("failed");
+				return commonResponse;
 			}
 
 			JSONObject paramsObject = JSONObject.parseObject(params);
@@ -63,12 +64,12 @@ public class UserManagerController {
 				result.put("message", "name or password can not be empty");
 				commonResponse.setResult(result);
 				commonResponse.setStatus("failed");
+				return commonResponse;
 			}
 
 			UserDomain userDomain = new UserDomain();
 			userDomain.setId(Utils.generalId());
 			userDomain.setName(name);
-			userDomain.setPassword(password);
 			userDomain.setCreateTime(Utils.nowTime());
 			userDomain.setUpdateTime(Utils.nowTime());
 			userDomain.setCharacter("member");
@@ -82,7 +83,7 @@ public class UserManagerController {
 				commonResponse.setStatus("failed");
 				return commonResponse;
 			}
-			
+			userDomain.setPassword(password);
 			userDao.addUser(userDomain);
 
 			result.put("message", "ass user success");
@@ -105,6 +106,7 @@ public class UserManagerController {
 				result.put("message", "params can not be empty");
 				commonResponse.setResult(result);
 				commonResponse.setStatus("failed");
+				return commonResponse;
 			}
 
 			JSONObject paramsObject = JSONObject.parseObject(params);
@@ -113,6 +115,7 @@ public class UserManagerController {
 				result.put("message", "name can not be empty");
 				commonResponse.setResult(result);
 				commonResponse.setStatus("failed");
+				return commonResponse;
 			}
 
 			UserDomain userDomain = new UserDomain();
@@ -136,6 +139,55 @@ public class UserManagerController {
 			commonResponse.setStatus("success");
 		} catch (Exception e) {
 			result.put("message", "delete user failed" + e);
+			commonResponse.setResult(result);
+			commonResponse.setStatus("failed");
+		}
+		return commonResponse;
+	}
+	
+	@RequestMapping(value = "/user/login",method = RequestMethod.POST)
+	public CommonResponse login(@RequestBody(required = true) String params) {
+		CommonResponse commonResponse = new CommonResponse();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		try {
+			if(StringUtils.isEmpty(params)) {
+				result.put("message", "params can not be empty");
+				commonResponse.setResult(result);
+				commonResponse.setStatus("failed");
+				return commonResponse;
+			}
+			
+			JSONObject paramsObject = JSONObject.parseObject(params);
+			String name = paramsObject.getString("name");
+			String password = paramsObject.getString("password");
+			if(StringUtils.isEmpty(name) || StringUtils.isEmpty(password)) {
+				result.put("message", "name and password can not be empty");
+				commonResponse.setResult(result);
+				commonResponse.setStatus("failed");
+				return commonResponse;
+			}
+			
+			UserDomain userDomain = new UserDomain();
+			userDomain.setName(name);
+			userDomain.setPassword(password);
+			
+			List<UserDomain> userList = userDao.queryUser(userDomain);
+			
+			if(userList.isEmpty()) {
+				result.put("message", "user name or password is not right");
+				result.put("userList", userList);
+				commonResponse.setResult(result);
+				commonResponse.setStatus("failed");
+				return commonResponse;
+			}
+			
+			result.put("message", "query user success");
+			result.put("userList", userList);
+			commonResponse.setResult(result);
+			commonResponse.setStatus("success");
+
+		} catch (Exception e) {
+			result.put("message", "query user failed" + e);
 			commonResponse.setResult(result);
 			commonResponse.setStatus("failed");
 		}
